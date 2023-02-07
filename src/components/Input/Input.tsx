@@ -1,9 +1,21 @@
 import React, { FC } from 'react';
 
-const Input: FC = () => {
+interface InputProps {
+	labelText: string;
+	placeholderText: string;
+	onChange: () => void;
+}
+
+const Input: FC<InputProps> = ({ labelText, placeholderText, onChange }) => {
 	return (
 		<div>
-			<input type='text' name='search' placeholder='Search...' />
+			<label>{labelText}</label>
+			<input
+				type='text'
+				name='search'
+				placeholder={placeholderText}
+				onChange={onChange}
+			/>
 		</div>
 	);
 };
