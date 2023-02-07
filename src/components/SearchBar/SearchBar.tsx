@@ -17,7 +17,7 @@ All courses are displayed when user cleans search field.
 
 	return (
 		<>
-			<Input  />
+			<Input />
 			<Button text='Search' onClick={onSearch} />
 		</>
 	);
