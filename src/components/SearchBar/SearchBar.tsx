@@ -7,6 +7,9 @@ const SearchBar: FC = () => {
 		console.log('Search');
 	};
 
+	const onChange = () => {
+		console.log('text');
+	};
 	/*
    User should have ability to search course by title and id;
 The search is performed by the occurrence of characters in the string, and not just by a match at the beginning of the string;
@@ -17,7 +20,11 @@ All courses are displayed when user cleans search field.
 
 	return (
 		<>
-			<Input />
+			<Input
+				labelText='Search'
+				placeholderText='Search...'
+				onChange={onChange}
+			/>
 			<Button text='Search' onClick={onSearch} />
 		</>
 	);
