@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, ChangeEvent, SyntheticEvent } from 'react';
 
 interface InputProps {
 	labelText: string;
 	placeholderText: string;
-	onChange: () => void;
+	onChange: (e: SyntheticEvent<HTMLInputElement>) => void;
 }
 
 const Input: FC<InputProps> = ({ labelText, placeholderText, onChange }) => {
@@ -12,9 +12,10 @@ const Input: FC<InputProps> = ({ labelText, placeholderText, onChange }) => {
 			<label>{labelText}</label>
 			<input
 				type='text'
-				name='search'
+				name='input'
 				placeholder={placeholderText}
 				onChange={onChange}
+				required
 			/>
 		</div>
 	);

@@ -1,5 +1,8 @@
 .course-card  {
-    
+    display: flex;
+    border: 1px solid green;
+    justify-content: space-between;
+    margin: 10px;
 }
 
 .left-part {

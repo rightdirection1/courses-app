@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import { FC, useState } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
 const SearchBar: FC = () => {
+	const [searchedValue, setSearchedValue] = useState('');
+
 	const onSearch = () => {
 		console.log('Search');
 	};
@@ -19,14 +21,14 @@ All courses are displayed when user cleans search field.
    */
 
 	return (
-		<>
+		<div>
 			<Input
-				labelText='Search'
+				labelText=''
 				placeholderText='Search...'
-				onChange={onChange}
+				onChange={(e) => setSearchedValue(e.currentTarget.value)}
 			/>
 			<Button text='Search' onClick={onSearch} />
-		</>
+		</div>
 	);
 };
 

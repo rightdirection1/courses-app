@@ -1,12 +1,15 @@
-import { AnyARecord } from 'dns';
-import React, { FC } from 'react';
+import { FC, useState } from 'react';
 import Button from '../Button/Button';
+import { mockedAuthorsList } from 'src/constants/mockedAuthorsList';
+import './CourseCard.css';
+import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 
 interface CourseCardProps {
 	title: string;
 	duration: number;
 	creationDate: string;
 	description: string;
+	authors: string[];
 }
 
 const CourseCard: FC<CourseCardProps> = ({
@@ -14,17 +17,26 @@ const CourseCard: FC<CourseCardProps> = ({
 	duration,
 	creationDate,
 	description,
+	authors,
 }) => {
+	//const [courseAuthors, setCourseAuthors] = useState([]);
+
 	const showCourse = () => {
 		console.log('Show Course');
 	};
 
-	const convertDurationToHrsMins: any = (duration: number) => {
-		let hour: any = Math.floor(duration / 60);
-		let minutes: any = duration % 60;
-		hour = hour < 10 ? '0' + hour : hour;
-		minutes = minutes < 10 ? '0' + minutes : minutes;
-		return hour + ':' + minutes + 'hours';
+	const displayAuthors = (authorIds: string[]) => {
+		const result: string[] = [];
+
+		for (let i = 0; i < authorIds.length; i++) {
+			for (let j = 0; j < mockedAuthorsList.length; j++) {
+				if (authorIds[i] === mockedAuthorsList[j].id) {
+					result.push(mockedAuthorsList[i].name);
+				}
+			}
+		}
+		//setCourseAuthors(result);
+		return result.join(', ');
 	};
 
 	return (
@@ -37,10 +49,10 @@ const CourseCard: FC<CourseCardProps> = ({
 				<div className='right-part'>
 					<p>Duration {convertDurationToHrsMins(duration)}</p>
 					<p>Created {creationDate}</p>
-					<p>Authors</p>
+					<p>{displayAuthors(authors)}</p>
+					<Button text='Show course' onClick={showCourse} />
 				</div>
 			</div>
-			<Button text='Show course' onClick={showCourse} />
 		</>
 	);
 };
