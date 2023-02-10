@@ -16,6 +16,7 @@ const CreateCourse: FC<FormProps> = () => {
 	const [duration, setDuration] = useState(0);
 	const [author, setAuthor] = useState('');
 	const [courseAuthors, setCourseAuthors] = useState([]);
+	const [authors, setAuthors] = useState(mockedAuthorsList);
 
 	const onSubmit = () => {
 		console.log('Submitted');
@@ -28,13 +29,11 @@ const CreateCourse: FC<FormProps> = () => {
 	const addAuthor = (id: string) => {
 		/*when user clicks on this button the corresponding author disappears from the Authors list and shows in Course authors.
 		 New author should be added to the initial author's list;*/
-		const authorIndex = mockedAuthorsList.findIndex(
-			(author) => author.id === id
-		);
+		const authorIndex = authors.findIndex((author) => author.id === id);
 		let poppedAuthor: any = {};
 
 		if (authorIndex > -1) {
-			poppedAuthor = mockedAuthorsList.splice(authorIndex, 1);
+			poppedAuthor = authors.splice(authorIndex, 1);
 		}
 		const result: any = [];
 		result.push(poppedAuthor);
@@ -51,10 +50,17 @@ const CreateCourse: FC<FormProps> = () => {
 	};
 
 	const createAuthor = () => {
-		mockedAuthorsList.push({ id: uuidv4(), name: author });
+		setAuthors([
+			...authors,
+			{
+				id: uuidv4().toString(),
+				name: author,
+			},
+		]);
+
 		setAuthor('');
 	};
-
+	console.log(courseAuthors);
 	return (
 		<>
 			<form onSubmit={onSubmit}>
@@ -99,27 +105,27 @@ const CreateCourse: FC<FormProps> = () => {
 					</div>
 					<div className='authors'>
 						<h1>Authors</h1>
-						{mockedAuthorsList.map((author) => {
+						{authors.map((author) => {
 							return (
 								<AuthorItem
 									key={author.id}
 									name={author.name}
 									buttonText='Add author'
-									onClick={() => deleteAuthor(author.id)}
+									onClick={() => addAuthor(author.id)}
 								/>
 							);
 						})}
 					</div>
 					<div className='courses-author'>
 						<h1>Course authors</h1>
-						{courseAuthors.length === 0 ? <p> No courses authors</p> : <></>}
-						{courseAuthors.map((author) => {
+						{/* {courseAuthors.length === 0 ? <p> No courses authors</p> : <></>} */}
+						{courseAuthors[0]?.map((author) => {
 							return (
 								<AuthorItem
 									key={author.id}
 									name={author.name}
 									buttonText='Delete author'
-									onClick={() => addAuthor(author.id)}
+									onClick={() => deleteAuthor(author.id)}
 								/>
 							);
 						})}

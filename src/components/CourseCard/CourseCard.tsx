@@ -22,8 +22,6 @@ const CourseCard: FC<CourseCardProps> = ({
 }) => {
 	//const [courseAuthors, setCourseAuthors] = useState([]);
 
-	console.log(dateFormatter('02/02/2003'));
-
 	const showCourse = () => {
 		console.log('Show Course');
 	};
