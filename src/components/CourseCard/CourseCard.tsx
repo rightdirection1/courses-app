@@ -3,6 +3,7 @@ import Button from '../Button/Button';
 import { mockedAuthorsList } from 'src/constants/mockedAuthorsList';
 import './CourseCard.css';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
+import { dateFormatter } from 'src/utiles/dateFormatter';
 
 interface CourseCardProps {
 	title: string;
@@ -20,6 +21,8 @@ const CourseCard: FC<CourseCardProps> = ({
 	authors,
 }) => {
 	//const [courseAuthors, setCourseAuthors] = useState([]);
+
+	console.log(dateFormatter('02/02/2003'));
 
 	const showCourse = () => {
 		console.log('Show Course');
@@ -48,7 +51,7 @@ const CourseCard: FC<CourseCardProps> = ({
 				</div>
 				<div className='right-part'>
 					<p>Duration {convertDurationToHrsMins(duration)}</p>
-					<p>Created {creationDate}</p>
+					<p>Created {dateFormatter(creationDate)}</p>
 					<p>{displayAuthors(authors)}</p>
 					<Button text='Show course' onClick={showCourse} />
 				</div>
