@@ -9,13 +9,13 @@ const Header: FC = () => {
 	};
 
 	return (
-		<div className='header'>
+		<header className='header'>
 			<Logo />
-			<div>
+			<div className='auth'>
 				<p>Lyubima</p>
 				<Button text='Log Out' onClick={logOut} />
 			</div>
-		</div>
+		</header>
 	);
 };
 

@@ -7,6 +7,8 @@ import './CreateCourse.css';
 import { v4 as uuidv4 } from 'uuid';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 import { mockedCoursesList } from 'src/constants/mockedCoursesList';
+import { dateFormatter } from 'src/utiles/dateFormatter';
+import Courses from '../Courses/Courses';
 
 interface FormProps {
 	chlidren?: React.ReactNode | React.ReactNode[];
@@ -14,16 +16,46 @@ interface FormProps {
 
 const CreateCourse: FC<FormProps> = () => {
 	const [duration, setDuration] = useState(0);
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
 	const [author, setAuthor] = useState('');
 	const [courseAuthors, setCourseAuthors] = useState([]);
 	const [authors, setAuthors] = useState(mockedAuthorsList);
+	const [courses, setCourses] = useState(mockedCoursesList);
+	const [isCreatedCourse, setCreatedCourse] = useState(false);
 
-	const onSubmit = () => {
-		console.log('Submitted');
-	};
+	const createCourse = (e: any) => {
+		e.preventDefault();
+		const authorIds = courseAuthors.map((author) => author.id);
+		console.log(authorIds);
+		const currentDate = new Date().toLocaleDateString();
 
-	const createCourse = () => {
-		console.log('create Course');
+		if (title.length <= 2 || description.length <= 2) {
+			alert('Text length should be at least 2 characters');
+			return;
+		}
+
+		if (duration < 0) {
+			alert('duration should be more than 0 minutes');
+			return;
+		}
+
+		const newCourse = {
+			id: uuidv4(),
+			title: title,
+			description: description,
+			creationDate: currentDate,
+			duration: duration,
+			authors: authorIds,
+		};
+
+		const tempCourses: any = [];
+		tempCourses.push(newCourse);
+		setCourses([...courses, ...tempCourses]);
+		console.log(courses);
+		setCreatedCourse(true);
+
+		e.target.reset();
 	};
 
 	const addAuthor = (id: string) => {
@@ -33,105 +65,134 @@ const CreateCourse: FC<FormProps> = () => {
 		let poppedAuthor: any = {};
 
 		if (authorIndex > -1) {
-			poppedAuthor = authors.splice(authorIndex, 1);
+			poppedAuthor = authors.find((_, ix: number) => ix === authorIndex);
 		}
+		authors.splice(authorIndex, 1);
+
 		const result: any = [];
 		result.push(poppedAuthor);
 
 		setCourseAuthors((item) => [...item, ...result]);
-		console.log(courseAuthors);
 	};
 
 	const deleteAuthor = (authorId: string) => {
 		/* Delete author - 
-		when user clicks on this button the corresponding author disappears from the Course authors list and shows in Authors;*/
+		when user clicks on this button the corresponding author disappears
+		 from the Course authors list and shows in Authors;*/
+		// const authorIndex = courseAuthors.findIndex(
+		// 	(author) => author.id === authorId
+		// );
+		// courseAuthors.splice(authorIndex, 1);
+		setAuthors((items) => [
+			...items,
+			...courseAuthors.filter((author) => author.id == authorId),
+		]);
 
-		console.log('Delete author');
+		setCourseAuthors(courseAuthors.filter((author) => author.id !== authorId));
 	};
 
 	const createAuthor = () => {
-		setAuthors([
-			...authors,
-			{
-				id: uuidv4().toString(),
-				name: author,
-			},
-		]);
+		const newAuthor = {
+			id: uuidv4().toString(),
+			name: author,
+		};
+		const result = [];
+		result.push(newAuthor);
+		if (author.length === 0) {
+			return;
+		}
+
+		setAuthors(() => [...authors, ...result]);
 
 		setAuthor('');
 	};
-	console.log(courseAuthors);
 	return (
 		<>
-			<form onSubmit={onSubmit}>
-				<>
-					<div className='create-course'>
-						<Input
-							labelText='Title'
-							placeholderText='Title...'
-							onChange={() => {
-								console.log(2);
-							}}
-						/>
-						<label htmlFor='descrpition'>Description:</label>
-						<textarea id='description' name='description'></textarea>
-						<Button text='Create course' onClick={createCourse} />
-					</div>
-					<div className='create-author'>
-						<h1>Add author</h1>
-						<Input
-							labelText='Author'
-							placeholderText='Create Author...'
-							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								setAuthor(e.currentTarget.value);
-							}}
-						/>
-						<Button text='Create Author' onClick={createAuthor} />
-					</div>
-					<div className='duration'>
-						<h1>Duration</h1>
-						<Input
-							labelText='Duration'
-							placeholderText='Duration...'
-							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								if (+e.currentTarget.value > 0) {
+			{isCreatedCourse ? (
+				<Courses onClick={() => console.log(2)} coursesData={courses} />
+			) : (
+				<form onSubmit={createCourse}>
+					<>
+						<div className='create-course'>
+							<Input
+								labelText='Title'
+								placeholderText='Title...'
+								type='text'
+								onChange={(e: ChangeEvent<HTMLInputElement>) => {
+									setTitle(e.currentTarget.value);
+								}}
+							/>
+							<label htmlFor='descrpition'>Description:</label>
+							<textarea
+								id='description'
+								onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+									setDescription(e.currentTarget.value);
+								}}
+								name='description'
+								required
+							></textarea>
+							<button type='submit'>Create Course </button>
+						</div>
+						<div className='create-author'>
+							<h1>Add author</h1>
+							<Input
+								labelText='Author'
+								placeholderText='Create Author...'
+								type='text'
+								onChange={(e: ChangeEvent<HTMLInputElement>) => {
+									setAuthor(e.currentTarget.value);
+								}}
+							/>
+							<Button text='Create Author' onClick={createAuthor} />
+						</div>
+						<div className='all-authors'>
+							<div className='authors'>
+								<h2>Authors</h2>
+								{authors.map((author) => {
+									return (
+										<AuthorItem
+											key={author.id}
+											name={author.name}
+											buttonText='Add author'
+											onClick={() => addAuthor(author.id)}
+										/>
+									);
+								})}
+							</div>
+							<div className='courses-author'>
+								<h2>Course authors</h2>
+								{/* {courseAuthors.length === 0 ? <p> No courses authors</p> : <></>} */}
+								{courseAuthors.length !== 0 ? (
+									courseAuthors.map((author) => {
+										return (
+											<AuthorItem
+												key={author.id}
+												name={author.name}
+												buttonText='Delete author'
+												onClick={() => deleteAuthor(author.id)}
+											/>
+										);
+									})
+								) : (
+									<p className='empty-list'>Author list is empty</p>
+								)}
+							</div>
+						</div>
+						<div className='duration'>
+							<h1>Duration</h1>
+							<Input
+								labelText='Duration'
+								placeholderText='Duration...'
+								type='number'
+								onChange={(e: ChangeEvent<HTMLInputElement>) => {
 									setDuration(+e.currentTarget.value);
-								} else {
-									alert('The value should be greate than 0!');
-								}
-							}}
-						/>
-						<div>Duration: {convertDurationToHrsMins(duration)}</div>
-					</div>
-					<div className='authors'>
-						<h1>Authors</h1>
-						{authors.map((author) => {
-							return (
-								<AuthorItem
-									key={author.id}
-									name={author.name}
-									buttonText='Add author'
-									onClick={() => addAuthor(author.id)}
-								/>
-							);
-						})}
-					</div>
-					<div className='courses-author'>
-						<h1>Course authors</h1>
-						{/* {courseAuthors.length === 0 ? <p> No courses authors</p> : <></>} */}
-						{courseAuthors[0]?.map((author) => {
-							return (
-								<AuthorItem
-									key={author.id}
-									name={author.name}
-									buttonText='Delete author'
-									onClick={() => deleteAuthor(author.id)}
-								/>
-							);
-						})}
-					</div>
-				</>
-			</form>
+								}}
+							/>
+							<div>Duration: {convertDurationToHrsMins(duration)}</div>
+						</div>
+					</>
+				</form>
+			)}
 		</>
 	);
 };

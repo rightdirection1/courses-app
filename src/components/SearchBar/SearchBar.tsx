@@ -25,6 +25,7 @@ All courses are displayed when user cleans search field.
 			<Input
 				labelText=''
 				placeholderText='Search...'
+				type='text'
 				onChange={(e) => setSearchedValue(e.currentTarget.value)}
 			/>
 			<Button text='Search' onClick={onSearch} />

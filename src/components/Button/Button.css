@@ -23,6 +23,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  width: 140px;
 }
 
 .button:hover,

@@ -1,6 +1,16 @@
 .header {
     width: 100%;
     display: flex;
-    border: 1px solid red;
     justify-content: space-between;
+    background-color: #f1f1f1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    z-index: 1;
+}
+
+p {
+    display: inline-block;
 }

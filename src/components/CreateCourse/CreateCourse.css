@@ -2,3 +2,32 @@
     display: flex;
     border: 1px solid yellow;
 }
+
+form {
+    margin: 100px;
+}
+
+.authors {
+    width: 45%;
+    border: 1px solid red;
+    margin: 30px;
+}
+
+.all-authors {
+    display: flex;
+}
+
+.courses-author{
+    width: 45%;
+    border: 1px solid red;
+    margin: 30px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.empty-list {
+    width: 100%;
+    text-align: center;
+}

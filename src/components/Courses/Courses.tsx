@@ -6,9 +6,10 @@ import './Courses.css';
 
 interface CoursesProps {
 	coursesData: any[];
+	onClick: (e: React.SyntheticEvent) => void;
 }
 
-const Courses: FC<CoursesProps> = ({ coursesData }: CoursesProps) => {
+const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
 	const addNewCourse = () => {
 		console.log('Add new course');
 	};
@@ -17,7 +18,7 @@ const Courses: FC<CoursesProps> = ({ coursesData }: CoursesProps) => {
 		<>
 			<div className='container'>
 				<SearchBar />
-				<Button text='Add new course' onClick={addNewCourse} />
+				<Button text='Add new course' onClick={onClick} />
 			</div>
 			{coursesData.map((course) => (
 				<CourseCard

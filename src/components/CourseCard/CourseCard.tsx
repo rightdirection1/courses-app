@@ -36,6 +36,7 @@ const CourseCard: FC<CourseCardProps> = ({
 				}
 			}
 		}
+		console.log(result);
 		//setCourseAuthors(result);
 		return result.join(', ');
 	};
@@ -45,12 +46,12 @@ const CourseCard: FC<CourseCardProps> = ({
 			<div className='course-card'>
 				<div className='left-part'>
 					<p>{title}</p>
-					<p>{description}</p>
+					<p className='description'>{description}</p>
 				</div>
 				<div className='right-part'>
 					<p>Duration {convertDurationToHrsMins(duration)}</p>
 					<p>Created {dateFormatter(creationDate)}</p>
-					<p>{displayAuthors(authors)}</p>
+					<p className='course-authors'>{displayAuthors(authors)}</p>
 					<Button text='Show course' onClick={showCourse} />
 				</div>
 			</div>
