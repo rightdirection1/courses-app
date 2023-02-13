@@ -5,6 +5,7 @@ interface InputProps {
 	placeholderText: string;
 	type: string;
 	onChange: (e: SyntheticEvent<HTMLInputElement>) => void;
+	value?: string;
 }
 
 const Input: FC<InputProps> = ({
@@ -12,6 +13,7 @@ const Input: FC<InputProps> = ({
 	placeholderText,
 	type,
 	onChange,
+	value,
 }) => {
 	return (
 		<div>
@@ -19,6 +21,7 @@ const Input: FC<InputProps> = ({
 			<input
 				type={type}
 				name='input'
+				value={value}
 				placeholder={placeholderText}
 				onChange={onChange}
 				required

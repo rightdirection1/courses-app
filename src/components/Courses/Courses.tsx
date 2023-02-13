@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import SearchBar from '../SearchBar/SearchBar';
@@ -10,6 +10,8 @@ interface CoursesProps {
 }
 
 const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
+	const [searchedValue, setSearchedValue] = useState('');
+
 	const addNewCourse = () => {
 		console.log('Add new course');
 	};
@@ -17,19 +19,21 @@ const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
 	return (
 		<>
 			<div className='container'>
-				<SearchBar />
+				<SearchBar onChange={(value) => setSearchedValue(value)} />
 				<Button text='Add new course' onClick={onClick} />
 			</div>
-			{coursesData.map((course) => (
-				<CourseCard
-					key={course.id}
-					title={course.title}
-					duration={course.duration}
-					creationDate={course.creationDate}
-					description={course.description}
-					authors={course.authors}
-				/>
-			))}
+			{coursesData
+				.filter((course) => course.title.includes(searchedValue))
+				.map((course) => (
+					<CourseCard
+						key={course.id}
+						title={course.title}
+						duration={course.duration}
+						creationDate={course.creationDate}
+						description={course.description}
+						authors={course.authors}
+					/>
+				))}
 		</>
 	);
 };

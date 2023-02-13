@@ -28,9 +28,9 @@ const CreateCourse: FC<FormProps> = () => {
 		e.preventDefault();
 		const authorIds = courseAuthors.map((author) => author.id);
 		console.log(authorIds);
-		const currentDate = new Date().toLocaleDateString();
+		const currentDate = new Date().toString();
 
-		if (title.length <= 2 || description.length <= 2) {
+		if (title.length <= 1 || description.length <= 1) {
 			alert('Text length should be at least 2 characters');
 			return;
 		}

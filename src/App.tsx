@@ -10,7 +10,7 @@ function App() {
 	const [showForm, setShowForm] = useState(false);
 	return (
 		<>
-			<Header />
+			{/* <Header /> */}
 			{showForm ? (
 				<CreateCourse />
 			) : (
