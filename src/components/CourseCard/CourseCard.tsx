@@ -20,24 +20,22 @@ const CourseCard: FC<CourseCardProps> = ({
 	description,
 	authors,
 }) => {
-	//const [courseAuthors, setCourseAuthors] = useState([]);
-
+	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
 	const showCourse = () => {
 		console.log('Show Course');
 	};
 
 	const displayAuthors = (authorIds: string[]) => {
 		const result: string[] = [];
-
 		for (let i = 0; i < authorIds.length; i++) {
-			for (let j = 0; j < mockedAuthorsList.length; j++) {
-				if (authorIds[i] === mockedAuthorsList[j].id) {
-					result.push(mockedAuthorsList[i].name);
+			for (let j = 0; j < authorsList.length; j++) {
+				console.log(authorIds[i]);
+				console.log(authorsList[j].id);
+				if (authorIds[i] === authorsList[j].id) {
+					result.push(authorsList[j].name);
 				}
 			}
 		}
-		console.log(result);
-		//setCourseAuthors(result);
 		return result.join(', ');
 	};
 

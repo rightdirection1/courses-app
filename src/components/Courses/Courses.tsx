@@ -12,30 +12,37 @@ interface CoursesProps {
 const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
 	const [searchedValue, setSearchedValue] = useState('');
 
-	const addNewCourse = () => {
-		console.log('Add new course');
-	};
-
 	return (
 		<>
 			<div className='container'>
 				<SearchBar onChange={(value) => setSearchedValue(value)} />
 				<Button text='Add new course' onClick={onClick} />
 			</div>
-			{coursesData
-				.filter((course) =>
-					course.title.toLowerCase().includes(searchedValue.toLowerCase())
-				)
-				.map((course) => (
-					<CourseCard
-						key={course.id}
-						title={course.title}
-						duration={course.duration}
-						creationDate={course.creationDate}
-						description={course.description}
-						authors={course.authors}
-					/>
-				))}
+			{searchedValue.length > 0
+				? coursesData
+						.filter((course) =>
+							course.title.toLowerCase().includes(searchedValue.toLowerCase())
+						)
+						.map((course) => (
+							<CourseCard
+								key={course.id}
+								title={course.title}
+								duration={course.duration}
+								creationDate={course.creationDate}
+								description={course.description}
+								authors={course.authors}
+							/>
+						))
+				: coursesData.map((course) => (
+						<CourseCard
+							key={course.id}
+							title={course.title}
+							duration={course.duration}
+							creationDate={course.creationDate}
+							description={course.description}
+							authors={course.authors}
+						/>
+				  ))}
 		</>
 	);
 };

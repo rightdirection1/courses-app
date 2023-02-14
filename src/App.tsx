@@ -10,7 +10,7 @@ function App() {
 	const [showForm, setShowForm] = useState(false);
 	return (
 		<>
-			{/* <Header /> */}
+			<Header />
 			{showForm ? (
 				<CreateCourse />
 			) : (
@@ -19,8 +19,6 @@ function App() {
 					coursesData={mockedCoursesList}
 				/>
 			)}
-
-			{/* <CreateCourse /> */}
 		</>
 	);
 }

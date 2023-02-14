@@ -7,7 +7,6 @@ import './CreateCourse.css';
 import { v4 as uuidv4 } from 'uuid';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 import { mockedCoursesList } from 'src/constants/mockedCoursesList';
-import { dateFormatter } from 'src/utiles/dateFormatter';
 import Courses from '../Courses/Courses';
 
 interface FormProps {
@@ -27,7 +26,6 @@ const CreateCourse: FC<FormProps> = () => {
 	const createCourse = (e: any) => {
 		e.preventDefault();
 		const authorIds = courseAuthors.map((author) => author.id);
-		console.log(authorIds);
 		const currentDate = new Date().toString();
 
 		if (title.length <= 1 || description.length <= 1) {
@@ -52,7 +50,6 @@ const CreateCourse: FC<FormProps> = () => {
 		const tempCourses: any = [];
 		tempCourses.push(newCourse);
 		setCourses([...courses, ...tempCourses]);
-		console.log(courses);
 		setCreatedCourse(true);
 
 		e.target.reset();
@@ -61,6 +58,7 @@ const CreateCourse: FC<FormProps> = () => {
 	const addAuthor = (id: string) => {
 		/*when user clicks on this button the corresponding author disappears from the Authors list and shows in Course authors.
 		 New author should be added to the initial author's list;*/
+
 		const authorIndex = authors.findIndex((author) => author.id === id);
 		let poppedAuthor: any = {};
 
@@ -73,16 +71,11 @@ const CreateCourse: FC<FormProps> = () => {
 		result.push(poppedAuthor);
 
 		setCourseAuthors((item) => [...item, ...result]);
+		console.log(result);
+		console.log(courseAuthors);
 	};
 
 	const deleteAuthor = (authorId: string) => {
-		/* Delete author - 
-		when user clicks on this button the corresponding author disappears
-		 from the Course authors list and shows in Authors;*/
-		// const authorIndex = courseAuthors.findIndex(
-		// 	(author) => author.id === authorId
-		// );
-		// courseAuthors.splice(authorIndex, 1);
 		setAuthors((items) => [
 			...items,
 			...courseAuthors.filter((author) => author.id == authorId),
@@ -103,7 +96,6 @@ const CreateCourse: FC<FormProps> = () => {
 		}
 
 		setAuthors(() => [...authors, ...result]);
-
 		setAuthor('');
 	};
 	return (
