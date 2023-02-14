@@ -23,7 +23,9 @@ const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
 				<Button text='Add new course' onClick={onClick} />
 			</div>
 			{coursesData
-				.filter((course) => course.title.includes(searchedValue))
+				.filter((course) =>
+					course.title.toLowerCase().includes(searchedValue.toLowerCase())
+				)
 				.map((course) => (
 					<CourseCard
 						key={course.id}
