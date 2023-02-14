@@ -1,3 +1,5 @@
+import { dateTimeFormat } from './utils';
+
 export const dateFormatter = (inputDate: string) => {
 	//let date = new Date();
 	//if (inputDate) {
@@ -8,7 +10,5 @@ export const dateFormatter = (inputDate: string) => {
 	const month = date.getMonth() + 1;
 	const day = date.getDate() + 1;
 
-	return `${day < 10 ? '0' + day : day}.${
-		month < 10 ? '0' + month : month
-	}.${year}`;
+	return `${dateTimeFormat(day)}.${dateTimeFormat(month)}.${year}`;
 };

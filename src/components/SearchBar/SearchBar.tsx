@@ -2,16 +2,14 @@ import { FC, useState } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 
+import './SearchBar.css';
+
 interface SearchBarProps {
 	onChange: (parm: string) => void;
 }
 
 const SearchBar: FC<SearchBarProps> = ({ onChange }) => {
 	const [searchedValue, setSearchedValue] = useState('');
-
-	const onSearch = () => {
-		console.log('Search');
-	};
 
 	/*
    User should have ability to search course by title and id;
@@ -22,7 +20,7 @@ All courses are displayed when user cleans search field.
    */
 
 	return (
-		<div>
+		<div className='search-bar-container'>
 			<Input
 				labelText=''
 				value={searchedValue}

@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, SyntheticEvent } from 'react';
+import React, { FC, SyntheticEvent } from 'react';
 
 interface InputProps {
 	labelText: string;
@@ -24,7 +24,6 @@ const Input: FC<InputProps> = ({
 				value={value}
 				placeholder={placeholderText}
 				onChange={onChange}
-				required
 			/>
 		</div>
 	);
