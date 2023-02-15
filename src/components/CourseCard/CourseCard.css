@@ -1,0 +1,25 @@
+.course-card  {
+    display: flex;
+    border: 1px solid green;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.left-part {
+    padding: 20px;
+}  
+
+.right-part {
+    
+}
+
+.description {
+    width: 500px;
+}
+
+.course-authors {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 130px;
+}
