@@ -1,10 +1,7 @@
 import { dateTimeFormat } from './utils';
 
 export const dateFormatter = (inputDate: string) => {
-	//let date = new Date();
-	//if (inputDate) {
 	const date = new Date(inputDate);
-	//}
 	console.log('date ' + inputDate);
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1;
