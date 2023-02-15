@@ -1,42 +1,30 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import Button from '../Button/Button';
 import { mockedAuthorsList } from 'src/constants/mockedAuthorsList';
 import './CourseCard.css';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 import { dateFormatter } from 'src/utiles/dateFormatter';
+import { CourseData } from './CourseCard.types';
 
 interface CourseCardProps {
-	title: string;
-	duration: number;
-	creationDate: string;
-	description: string;
-	authors: string[];
+	course: CourseData;
 }
 
 const CourseCard: FC<CourseCardProps> = ({
-	title,
-	duration,
-	creationDate,
-	description,
-	authors,
+	course: { title, description, authors, duration, creationDate },
 }) => {
-	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
 	const showCourse = () => {
 		console.log('Show Course');
 	};
 
 	const displayAuthors = (authorIds: string[]) => {
-		const result: string[] = [];
-		for (let i = 0; i < authorIds.length; i++) {
-			for (let j = 0; j < authorsList.length; j++) {
-				console.log(authorIds[i]);
-				console.log(authorsList[j].id);
-				if (authorIds[i] === authorsList[j].id) {
-					result.push(authorsList[j].name);
-				}
-			}
-		}
-		return result.join(', ');
+		return authorIds
+			.map(
+				(authorId) =>
+					mockedAuthorsList.find((author) => author.id === authorId)?.name
+			)
+			.filter(Boolean)
+			.join(', ');
 	};
 
 	return (

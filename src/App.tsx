@@ -8,11 +8,12 @@ import CreateCourse from './components/CreateCourse/CreateCourse';
 
 function App() {
 	const [showForm, setShowForm] = useState(false);
+
 	return (
 		<>
 			<Header />
 			{showForm ? (
-				<CreateCourse />
+				<CreateCourse onCreate={() => setShowForm(false)} />
 			) : (
 				<Courses
 					onClick={() => setShowForm(true)}
