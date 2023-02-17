@@ -7,20 +7,22 @@ import './CreateCourse.css';
 import { v4 as uuidv4 } from 'uuid';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 import { mockedCoursesList } from 'src/constants/mockedCoursesList';
+import { useNavigate } from 'react-router-dom';
 
-interface FormProps {
-	onCreate: () => void;
-}
+// interface FormProps {
+// 	onCreate: () => void;
+// }
 
-const CreateCourse: FC<FormProps> = ({ onCreate }) => {
+const CreateCourse: FC = () => {
 	const [duration, setDuration] = useState(0);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [author, setAuthor] = useState('');
 	const [courseAuthors, setCourseAuthors] = useState([]);
 	const [authors, setAuthors] = useState([...mockedAuthorsList]);
+	const navigate = useNavigate();
 
-	const createCourse = (e: React.FormEvent<HTMLFormElement>) => {
+	function createCourse(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		if (title.length <= 1 || description.length <= 1) {
@@ -46,8 +48,9 @@ const CreateCourse: FC<FormProps> = ({ onCreate }) => {
 		};
 
 		mockedCoursesList.push(newCourse);
-		onCreate();
-	};
+		//onCreate();
+		navigate('/courses', { replace: true });
+	}
 
 	const addAuthor = (id: string) => {
 		const authorToAdd = authors.find((author) => author.id === id);

@@ -1,20 +1,22 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Button from '../Button/Button';
 import { mockedAuthorsList } from 'src/constants/mockedAuthorsList';
 import './CourseCard.css';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 import { dateFormatter } from 'src/utiles/dateFormatter';
 import { CourseData } from './CourseCard.types';
+import CourseInfo from '../CourseInfo/CourseInfo';
 
 interface CourseCardProps {
 	course: CourseData;
 }
 
 const CourseCard: FC<CourseCardProps> = ({
-	course: { title, description, authors, duration, creationDate },
+	course: { id, title, description, authors, duration, creationDate },
 }) => {
+	const [showCourseInfo, setShowCourseInfo] = useState(false);
 	const showCourse = () => {
-		console.log('Show Course');
+		setShowCourseInfo(true);
 	};
 
 	const displayAuthors = (authorIds: string[]) => {
