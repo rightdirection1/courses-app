@@ -5,8 +5,9 @@ import Courses from './components/Courses/Courses';
 import Header from './components/Header/Header';
 import CreateCourse from './components/CreateCourse/CreateCourse';
 import Registration from './components/Registration/Registration';
-import { BrowserRouter, Routes, Route, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import Login from './components/Login/Login';
+import CourseInfo from './components/CourseInfo/CourseInfo';
 
 interface RoutesProps {
 	children?: React.ReactNode;
@@ -15,6 +16,7 @@ interface RoutesProps {
 
 function App() {
 	const [showForm, setShowForm] = useState(false);
+	const { courseId } = useParams();
 	return (
 		<>
 			{/* <Header /> */}
@@ -33,6 +35,7 @@ function App() {
 							/>
 						}
 					></Route>
+					<Route path='/courses/:courseId' element={<CourseInfo />}></Route>
 				</Routes>
 			</BrowserRouter>
 		</>

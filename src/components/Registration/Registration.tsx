@@ -17,7 +17,8 @@ const Registration: FC = () => {
 	const [errorMessage, setErrorMessage] = useState('');
 	const navigate = useNavigate();
 
-	const createUser = async () => {
+	const createUser = async (e) => {
+		e.preventDefault();
 		const newUser = {
 			name,
 			password,
@@ -33,9 +34,14 @@ const Registration: FC = () => {
 		});
 
 		const result = await response.json();
+		//Temporary check is not exactly the purpose
+		if (result.errors === undefined) {
+			setErrorMessage('There is an error');
+		}
+
 		console.log(result);
-		navigate('/login', { replace: true });
 		return result;
+		navigate('/login', { replace: true });
 	};
 
 	// useEffect(() => {
