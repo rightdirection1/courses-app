@@ -17,14 +17,29 @@ Response contains value result, it's user's token. You should save it to the loc
 After successful login, user is redirected to the Courses page by route
 */
 const Login: FC = () => {
-	const url = 'https://api.github.com/login';
+	const url = 'http://localhost:4000/login';
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
+	const navigate = useNavigate();
 
 	const LogIn = async () => {
-		// const response = await fetch(url);
-		// const user = await response.json();
-		// setUsers(user);
+		let response: any = await fetch(url, {
+			method: 'POST',
+			body: JSON.stringify({ email: name, password }),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		response = await response.json();
+		if (response.successful !== true) {
+			return;
+		}
+		const userToken = response.result;
+		localStorage.setItem('token', userToken);
+		localStorage.setItem('user', JSON.stringify(response.user));
+
+		//console.log(user);
+		navigate('/courses');
 	};
 
 	return (
@@ -49,7 +64,7 @@ const Login: FC = () => {
 						setPassword(e.currentTarget.value)
 					}
 				/>
-				<Button text='Log In' onClick={() => Login} />
+				<Button text='Log In' onClick={LogIn} />
 			</form>
 		</>
 	);

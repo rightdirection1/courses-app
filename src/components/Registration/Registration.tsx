@@ -36,11 +36,11 @@ const Registration: FC = () => {
 		const result = await response.json();
 		//Temporary check is not exactly the purpose
 		console.log(result.errors);
-		if (!(result.errors === undefined)) {
+		if (result.errors !== undefined) {
 			setErrorMessage('Error in fields');
 		}
 
-		if (result.successful === true) {
+		if (result.successful === true && result.errors === undefined) {
 			navigate('/login', { replace: true });
 		}
 		console.log(result);

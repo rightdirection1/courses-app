@@ -6,6 +6,7 @@ import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 import { dateFormatter } from 'src/utiles/dateFormatter';
 import { CourseData } from './CourseCard.types';
 import CourseInfo from '../CourseInfo/CourseInfo';
+import { Link } from 'react-router-dom';
 
 interface CourseCardProps {
 	course: CourseData;
@@ -14,9 +15,9 @@ interface CourseCardProps {
 const CourseCard: FC<CourseCardProps> = ({
 	course: { id, title, description, authors, duration, creationDate },
 }) => {
-	const [showCourseInfo, setShowCourseInfo] = useState(false);
+	//const [showCourseInfo, setShowCourseInfo] = useState(false);
 	const showCourse = () => {
-		setShowCourseInfo(true);
+		//setShowCourseInfo(true);
 	};
 
 	const displayAuthors = (authorIds: string[]) => {
@@ -41,6 +42,7 @@ const CourseCard: FC<CourseCardProps> = ({
 					<p>Created {dateFormatter(creationDate)}</p>
 					<p className='course-authors'>{displayAuthors(authors)}</p>
 					<Button text='Show course' onClick={showCourse} />
+					<Link to={`/courses/${id}`}>Show course</Link>
 				</div>
 			</div>
 		</>

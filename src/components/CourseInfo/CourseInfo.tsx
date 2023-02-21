@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Button from '../Button/Button';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
@@ -13,10 +13,27 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 
 const CourseInfo: FC = () => {
 	const navigate = useNavigate();
+	const params = useParams();
 
-	const getCourseInfo = () => {
-		console.log('');
+	const getCourseInfo = async () => {
+		// console.log(params.courseId);
+		// const response = await fetch(
+		// 	`http://localhost:4000/courses/${params.courseId}`,
+		// 	{
+		// 		method: 'GET',
+		// 		//body: JSON.stringify({ id: courseId }),
+		// 		headers: {
+		// 			'Content-Type': 'application/json',
+		// 		},
+		// 	}
+		// );
+		// const result = await response.json();
+		// return result;
 	};
+
+	useEffect(() => {
+		console.log(getCourseInfo());
+	}, []);
 
 	const backToCourses = () => {
 		navigate('/courses');
