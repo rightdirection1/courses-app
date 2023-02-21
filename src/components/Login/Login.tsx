@@ -57,7 +57,7 @@ const Login: FC = () => {
 				/>
 				<Input
 					labelText='Password'
-					type='text'
+					type='password'
 					placeholderText='Enter Password...'
 					value={password}
 					onChange={(e: ChangeEvent<HTMLInputElement>) =>

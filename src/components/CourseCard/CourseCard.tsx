@@ -15,11 +15,6 @@ interface CourseCardProps {
 const CourseCard: FC<CourseCardProps> = ({
 	course: { id, title, description, authors, duration, creationDate },
 }) => {
-	//const [showCourseInfo, setShowCourseInfo] = useState(false);
-	const showCourse = () => {
-		//setShowCourseInfo(true);
-	};
-
 	const displayAuthors = (authorIds: string[]) => {
 		return authorIds
 			.map(
@@ -41,7 +36,7 @@ const CourseCard: FC<CourseCardProps> = ({
 					<p>Duration {convertDurationToHrsMins(duration)}</p>
 					<p>Created {dateFormatter(creationDate)}</p>
 					<p className='course-authors'>{displayAuthors(authors)}</p>
-					<Button text='Show course' onClick={showCourse} />
+					{/* <Button text='Show course' onClick={showCourse} /> */}
 					<Link to={`/courses/${id}`}>Show course</Link>
 				</div>
 			</div>

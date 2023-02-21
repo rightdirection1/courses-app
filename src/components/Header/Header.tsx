@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header: FC = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 	const navigate = useNavigate();
 	const location = useLocation();
 

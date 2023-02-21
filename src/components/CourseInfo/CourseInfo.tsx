@@ -1,6 +1,7 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Button from '../Button/Button';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { mockedCoursesList } from 'src/constants/mockedCoursesList';
 
 // interface CourseInfoProps {
 // 	id: any;
@@ -14,8 +15,16 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 const CourseInfo: FC = () => {
 	const navigate = useNavigate();
 	const params = useParams();
+	const [currentCourse, setCurrentCourse] = useState<any>(null);
+	const [loading, setLoading] = useState(true);
 
 	const getCourseInfo = async () => {
+		const foundCourse = mockedCoursesList.find(
+			({ id }) => id === params.courseId
+		);
+
+		setCurrentCourse(foundCourse);
+		setLoading(false);
 		// console.log(params.courseId);
 		// const response = await fetch(
 		// 	`http://localhost:4000/courses/${params.courseId}`,
@@ -35,6 +44,10 @@ const CourseInfo: FC = () => {
 		console.log(getCourseInfo());
 	}, []);
 
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
 	const backToCourses = () => {
 		navigate('/courses');
 	};
@@ -42,22 +55,22 @@ const CourseInfo: FC = () => {
 	return (
 		<>
 			<Button text='Back to courses' onClick={backToCourses} />
-			<h1>{/*{title}*/}</h1>
+			<h1>{currentCourse.title}</h1>
 			<div className='description'>{/*{descriotion} */}</div>
 			<div className='info'>
 				<p>
-					<span>ID:</span>
+					<span>ID: {currentCourse.id}</span>
 				</p>
 				<p>
-					<span>Duration: </span>
+					<span>Duration: {currentCourse.duration}</span>
 				</p>
 				<p>
 					<span>Created: </span>
-					{/* {creationDate} */}
+					{currentCourse.creationDate}
 				</p>
 				<p>
 					<span>Authors: </span>
-					{/* {listAuthors} */}
+					{currentCourse.listAuthors}
 				</p>
 			</div>
 		</>
