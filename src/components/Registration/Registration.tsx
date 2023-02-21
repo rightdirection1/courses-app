@@ -35,18 +35,17 @@ const Registration: FC = () => {
 
 		const result = await response.json();
 		//Temporary check is not exactly the purpose
-		if (result.errors === undefined) {
-			setErrorMessage('There is an error');
+		console.log(result.errors);
+		if (!(result.errors === undefined)) {
+			setErrorMessage('Error in fields');
 		}
 
+		if (result.successful === true) {
+			navigate('/login', { replace: true });
+		}
 		console.log(result);
 		return result;
-		navigate('/login', { replace: true });
 	};
-
-	// useEffect(() => {
-	// 	createUser();
-	// }, []);
 
 	return (
 		<>
@@ -81,6 +80,7 @@ const Registration: FC = () => {
 				<div>
 					You have an account You can <Link to='/login'>Log In</Link>
 				</div>
+				<div>{errorMessage}</div>
 			</form>
 		</>
 	);
