@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 import SearchBar from '../SearchBar/SearchBar';
 import { CourseData } from '../CourseCard/CourseCard.types';
 import './Courses.css';
+import { useNavigate } from 'react-router-dom';
 
 interface CoursesProps {
 	coursesData: CourseData[];
@@ -12,6 +13,7 @@ interface CoursesProps {
 
 const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
 	const [searchedValue, setSearchedValue] = useState('');
+	const navigate = useNavigate();
 
 	const courses = useMemo(() => {
 		const searchTerm = searchedValue.trim();
@@ -28,7 +30,10 @@ const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
 		<>
 			<div className='container'>
 				<SearchBar onChange={(value) => setSearchedValue(value)} />
-				<Button text='Add new course' onClick={onClick} />
+				<Button
+					text='Add new course'
+					onClick={() => navigate('/courses/add')}
+				/>
 			</div>
 			{courses.length === 0 && <p>No courses found.</p>}
 			{courses.map((course) => (

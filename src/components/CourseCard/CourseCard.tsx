@@ -1,22 +1,20 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Button from '../Button/Button';
 import { mockedAuthorsList } from 'src/constants/mockedAuthorsList';
 import './CourseCard.css';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
 import { dateFormatter } from 'src/utiles/dateFormatter';
 import { CourseData } from './CourseCard.types';
+import CourseInfo from '../CourseInfo/CourseInfo';
+import { Link } from 'react-router-dom';
 
 interface CourseCardProps {
 	course: CourseData;
 }
 
 const CourseCard: FC<CourseCardProps> = ({
-	course: { title, description, authors, duration, creationDate },
+	course: { id, title, description, authors, duration, creationDate },
 }) => {
-	const showCourse = () => {
-		console.log('Show Course');
-	};
-
 	const displayAuthors = (authorIds: string[]) => {
 		return authorIds
 			.map(
@@ -38,7 +36,8 @@ const CourseCard: FC<CourseCardProps> = ({
 					<p>Duration {convertDurationToHrsMins(duration)}</p>
 					<p>Created {dateFormatter(creationDate)}</p>
 					<p className='course-authors'>{displayAuthors(authors)}</p>
-					<Button text='Show course' onClick={showCourse} />
+					{/* <Button text='Show course' onClick={showCourse} /> */}
+					<Link to={`/courses/${id}`}>Show course</Link>
 				</div>
 			</div>
 		</>
