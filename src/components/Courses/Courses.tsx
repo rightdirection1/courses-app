@@ -8,10 +8,9 @@ import { useNavigate } from 'react-router-dom';
 
 interface CoursesProps {
 	coursesData: CourseData[];
-	onClick: (e: React.SyntheticEvent) => void;
 }
 
-const Courses: FC<CoursesProps> = ({ coursesData, onClick }: CoursesProps) => {
+const Courses: FC<CoursesProps> = ({ coursesData }: CoursesProps) => {
 	const [searchedValue, setSearchedValue] = useState('');
 	const navigate = useNavigate();
 

@@ -1,7 +1,7 @@
 import { FC, useState, ChangeEvent } from 'react';
 import Button from 'src/components/Button/Button';
 import Input from 'src/components/Input/Input';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // interface LoginProps {
 // 	name: string;
@@ -64,6 +64,9 @@ const Login: FC = () => {
 						setPassword(e.currentTarget.value)
 					}
 				/>
+				<div>
+					You don't have an account You can <Link to='/register'>Register</Link>
+				</div>
 				<Button text='Log In' onClick={LogIn} />
 			</form>
 		</>

@@ -47,6 +47,9 @@ const CourseInfo: FC = () => {
 	if (loading) {
 		return <div>Loading...</div>;
 	}
+	if (!currentCourse) {
+		return <div>No course found</div>;
+	}
 
 	const backToCourses = () => {
 		navigate('/courses');

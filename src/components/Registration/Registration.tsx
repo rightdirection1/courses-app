@@ -3,6 +3,7 @@ import Input from '../Input/Input';
 import Button from '../Button/Button';
 import Login from 'src/components/Login/Login';
 import { useNavigate, Link } from 'react-router-dom';
+import { register } from 'src/services/api';
 
 // interface RegistrationProps {
 // 	name: string;
@@ -17,34 +18,43 @@ const Registration: FC = () => {
 	const [errorMessage, setErrorMessage] = useState('');
 	const navigate = useNavigate();
 
+	const [error, setError] = useState<any>(null);
+	const [loading, setLoading] = useState(false);
+
 	const createUser = async (e) => {
 		e.preventDefault();
-		const newUser = {
-			name,
-			password,
-			email,
-		};
-
-		const response = await fetch('http://localhost:4000/register', {
-			method: 'POST',
-			body: JSON.stringify(newUser),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-
-		const result = await response.json();
-		//Temporary check is not exactly the purpose
-		console.log(result.errors);
-		if (result.errors !== undefined) {
-			setErrorMessage('Error in fields');
+		if (loading) {
+			return;
 		}
 
-		if (result.successful === true && result.errors === undefined) {
-			navigate('/login', { replace: true });
+		setLoading(true);
+
+		try {
+			const newUser = {
+				name,
+				password,
+				email,
+			};
+
+			const response = await register(newUser);
+
+			const result = await response.json();
+			//Temporary check is not exactly the purpose
+			console.log(result.errors);
+			if (result.errors !== undefined) {
+				setErrorMessage('Error in fields');
+			}
+
+			if (result.successful === true && result.errors === undefined) {
+				navigate('/login', { replace: true });
+			}
+
+			setError(null);
+		} catch (e) {
+			setError(e);
+		} finally {
+			setLoading(false);
 		}
-		console.log(result);
-		return result;
 	};
 
 	return (
@@ -74,13 +84,14 @@ const Registration: FC = () => {
 						setPassword(e.currentTarget.value);
 					}}
 				/>
-				<button type='submit' onClick={() => createUser}>
+				<button type='submit' disabled={loading} onClick={() => createUser}>
 					Register
 				</button>
 				<div>
 					You have an account You can <Link to='/login'>Log In</Link>
 				</div>
 				<div>{errorMessage}</div>
+				{!!error && <div>Api error</div>}
 			</form>
 		</>
 	);
