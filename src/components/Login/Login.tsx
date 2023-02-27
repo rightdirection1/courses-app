@@ -2,6 +2,9 @@ import { FC, useState, ChangeEvent } from 'react';
 import Button from 'src/components/Button/Button';
 import Input from 'src/components/Input/Input';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from 'src/store/user/userSlice';
+import { getUserLoggingInSelector } from 'src/store/user/selectors';
 
 // interface LoginProps {
 // 	name: string;
@@ -17,29 +20,24 @@ Response contains value result, it's user's token. You should save it to the loc
 After successful login, user is redirected to the Courses page by route
 */
 const Login: FC = () => {
-	const url = 'http://localhost:4000/login';
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 
-	const LogIn = async () => {
-		let response: any = await fetch(url, {
-			method: 'POST',
-			body: JSON.stringify({ email: name, password }),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-		response = await response.json();
-		if (response.successful !== true) {
-			return;
-		}
-		const userToken = response.result;
-		localStorage.setItem('token', userToken);
-		localStorage.setItem('user', JSON.stringify(response.user));
+	const dispatch = useDispatch();
+	const loading = useSelector(getUserLoggingInSelector);
 
-		//console.log(user);
-		navigate('/courses');
+	const LogIn = () => {
+		if (loading) return;
+
+		dispatch(
+			userLogin({
+				email: name,
+				password,
+			})
+		).then(() => {
+			navigate('/courses');
+		});
 	};
 
 	return (
@@ -67,7 +65,7 @@ const Login: FC = () => {
 				<div>
 					You don't have an account You can <Link to='/register'>Register</Link>
 				</div>
-				<Button text='Log In' onClick={LogIn} />
+				<Button text='Log In' disabled={loading} onClick={LogIn} />
 			</form>
 		</>
 	);

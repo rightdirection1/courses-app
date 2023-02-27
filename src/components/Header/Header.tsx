@@ -1,21 +1,31 @@
-import { FC, useState, useEffect } from 'react';
+import { FC } from 'react';
 import Logo from '../Logo/Logo';
 import Button from '../Button/Button';
 import './Header.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { parseJSON } from 'src/utiles/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	getTokenSelector,
+	getUserLoggingOutSelector,
+	getUserSelector,
+} from 'src/store/user/selectors';
+import { userLogout } from 'src/store/user/userSlice';
 
 const Header: FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const logOut = () => {
-		// if (localStorage.getItem('token') !== undefined) {
-		localStorage.removeItem('token');
-		localStorage.removeItem('user');
-		// }
+	const dispatch = useDispatch();
+	const token = useSelector(getTokenSelector);
+	const user = useSelector(getUserSelector);
+	const loggingOut = useSelector(getUserLoggingOutSelector);
 
-		navigate('/login');
+	const logOut = () => {
+		if (loggingOut) return;
+
+		dispatch(userLogout(token)).then(() => {
+			navigate('/login');
+		});
 	};
 
 	return (
@@ -23,8 +33,8 @@ const Header: FC = () => {
 			<Logo />
 			{location.pathname !== '/register' && location.pathname !== '/login' && (
 				<div className='auth'>
-					<p>{parseJSON(localStorage.getItem('user'))?.name}</p>
-					<Button text='Log Out' onClick={logOut} />
+					{user?.name && <p>{user?.name}</p>}
+					<Button text='Log Out' disabled={loggingOut} onClick={logOut} />
 				</div>
 			)}
 		</header>

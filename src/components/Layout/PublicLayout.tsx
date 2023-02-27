@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { parseJSON } from 'src/utiles/utils';
+import { getUserSelector } from 'src/store/user/selectors';
 
 export default function PublicLayout() {
-	const user = parseJSON(localStorage.getItem('user'));
+	const user = useSelector(getUserSelector);
 
 	if (user) {
 		return <Navigate to='/courses' />;

@@ -1,18 +1,28 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import CourseCard from '../CourseCard/CourseCard';
 import Button from '../Button/Button';
 import SearchBar from '../SearchBar/SearchBar';
-import { CourseData } from '../CourseCard/CourseCard.types';
-import './Courses.css';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	getCoursesLoadingSelector,
+	getCoursesSelector,
+} from 'src/store/course/selectors';
+import { fetchCourses } from 'src/store/course/courseSlice';
+import './Courses.css';
 
-interface CoursesProps {
-	coursesData: CourseData[];
-}
-
-const Courses: FC<CoursesProps> = ({ coursesData }: CoursesProps) => {
+const Courses: FC = () => {
 	const [searchedValue, setSearchedValue] = useState('');
 	const navigate = useNavigate();
+
+	const loading = useSelector(getCoursesLoadingSelector);
+	const coursesData = useSelector(getCoursesSelector);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchCourses());
+	}, []);
 
 	const courses = useMemo(() => {
 		const searchTerm = searchedValue.trim();
@@ -24,6 +34,10 @@ const Courses: FC<CoursesProps> = ({ coursesData }: CoursesProps) => {
 			course.title.toLowerCase().includes(searchTerm.toLowerCase())
 		);
 	}, [coursesData, searchedValue]);
+
+	if (loading) {
+		return <div className='container'>Loading...</div>;
+	}
 
 	return (
 		<>

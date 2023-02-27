@@ -6,12 +6,10 @@ import Button from '../Button/Button';
 import './CreateCourse.css';
 import { v4 as uuidv4 } from 'uuid';
 import { convertDurationToHrsMins } from 'src/utiles/durationConverter';
-import { mockedCoursesList } from 'src/constants/mockedCoursesList';
 import { useNavigate } from 'react-router-dom';
-
-// interface FormProps {
-// 	onCreate: () => void;
-// }
+import { useDispatch, useSelector } from 'react-redux';
+import { addCourse } from 'src/store/course/courseSlice';
+import { getTokenSelector } from 'src/store/user/selectors';
 
 const CreateCourse: FC = () => {
 	const [duration, setDuration] = useState(0);
@@ -20,9 +18,13 @@ const CreateCourse: FC = () => {
 	const [author, setAuthor] = useState('');
 	const [courseAuthors, setCourseAuthors] = useState([]);
 	const [authors, setAuthors] = useState([...mockedAuthorsList]);
-	const navigate = useNavigate();
 
-	function createCourse(e: React.FormEvent<HTMLFormElement>) {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const token = useSelector(getTokenSelector);
+
+	async function createCourse(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
 
 		if (title.length <= 1 || description.length <= 1) {
@@ -47,9 +49,9 @@ const CreateCourse: FC = () => {
 			authors: authorIds,
 		};
 
-		mockedCoursesList.push(newCourse);
-		//onCreate();
-		navigate('/courses', { replace: true });
+		dispatch(addCourse(newCourse, token)).then(() => {
+			navigate('/courses', { replace: true });
+		});
 	}
 
 	const addAuthor = (id: string) => {
